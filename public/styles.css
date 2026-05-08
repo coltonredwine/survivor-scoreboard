@@ -18,20 +18,22 @@
 html,
 body {
   margin: 0;
-  min-height: 100%;
+  min-height: 100svh;
+  min-height: 100dvh;
   height: 100%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.26), transparent 38%),
+    radial-gradient(circle at 75% 25%, rgba(145, 92, 44, 0.17), transparent 42%),
+    radial-gradient(circle at 50% 80%, rgba(120, 80, 45, 0.14), transparent 45%),
+    linear-gradient(180deg, var(--paper-highlight), var(--paper-base) 44%, var(--paper-shadow));
 }
 
 body {
   color: var(--ink);
   font-family: "ScoreboardOTF", "Trebuchet MS", "Segoe UI", Arial, sans-serif;
   letter-spacing: 0.04em;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.26), transparent 38%),
-    radial-gradient(circle at 75% 25%, rgba(145, 92, 44, 0.17), transparent 42%),
-    radial-gradient(circle at 50% 80%, rgba(120, 80, 45, 0.14), transparent 45%),
-    linear-gradient(180deg, var(--paper-highlight), var(--paper-base) 44%, var(--paper-shadow));
-  background-attachment: fixed;
+  background: transparent;
+  background-attachment: scroll;
 }
 
 .page-wrap {
