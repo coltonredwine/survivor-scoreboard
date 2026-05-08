@@ -1,0 +1,256 @@
+@font-face {
+  font-family: "ScoreboardOTF";
+  src: url("/assets/font.otf") format("opentype");
+  font-display: swap;
+}
+
+:root {
+  --ink: #3f3225;
+  --paper-base: #e8d2a6;
+  --paper-shadow: #d7b988;
+  --paper-highlight: #f2dfb8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  color: var(--ink);
+  font-family: "ScoreboardOTF", "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0.04em;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.26), transparent 38%),
+    radial-gradient(circle at 75% 25%, rgba(145, 92, 44, 0.17), transparent 42%),
+    radial-gradient(circle at 50% 80%, rgba(120, 80, 45, 0.14), transparent 45%),
+    linear-gradient(180deg, var(--paper-highlight), var(--paper-base) 44%, var(--paper-shadow));
+  background-attachment: fixed;
+}
+
+.page-wrap {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(0.4rem, 1.2vh, 1rem);
+  overflow: hidden;
+}
+
+.topbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.05rem, 0.4vh, 0.2rem);
+  justify-content: center;
+  text-align: center;
+  text-transform: uppercase;
+  font-size:150%;
+  flex-shrink: 0;
+}
+
+.topbar h1 {
+  margin: 0;
+  letter-spacing: 0.05em;
+  font-size: clamp(2rem, 6vh, 4.2rem);
+  line-height: 0.92;
+}
+
+.subtitle {
+  margin: 0 0 -0.2rem 0;
+  letter-spacing: 0.08em;
+  font-size: clamp(1rem, 3.2vh, 2rem);
+  line-height: 0.9;
+}
+
+.logo {
+  width: auto;
+  height: 20vh;
+  max-height: min(20vh, 180px);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-row {
+  display: flex;
+  justify-content: center;
+  margin: 0.75rem 0 0.5rem;
+}
+
+.pip {
+  border: 2px solid rgba(63, 50, 37, 0.6);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.9rem;
+  background: rgba(250, 240, 218, 0.6);
+}
+
+.pip.stale {
+  color: #7a1818;
+  border-color: rgba(122, 24, 24, 0.5);
+}
+
+.thermometer-grid {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(0.8rem, 2.4vw, 3rem);
+  padding: clamp(0.1rem, 0.5vh, 0.4rem) 0.4rem clamp(0.4rem, 1.2vh, 1rem);
+  width: 100%;
+  min-height: 0;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: clamp(70px, 16vw, 160px);
+  height: 100%;
+  min-height: 0;
+}
+
+.team-name {
+  margin-bottom: clamp(0.3rem, 1vh, 0.8rem);
+  font-size: clamp(1.8rem, 4.4vh, 3.6rem);
+  letter-spacing: 0.06em;
+  text-align: center;
+  line-height: 0.95;
+}
+
+.thermo-wrap {
+  position: relative;
+  width: clamp(34px, 9vw, 54px);
+  flex: 1;
+  min-height: 120px;
+  max-height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.thermo-tube {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  border: 3px solid rgba(63, 50, 37, 0.78);
+  background: rgba(255, 251, 241, 0.62);
+  overflow: hidden;
+}
+
+.thermo-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0%;
+  transition: height 600ms ease;
+  background: var(--team-color, #999);
+}
+
+.thermo-bulb {
+  display: none;
+}
+
+.team-score {
+  margin-top: 0.35rem;
+  font-size: clamp(1.8rem, 4.6vh, 3.4rem);
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.help-button {
+  position: fixed;
+  right: clamp(0.6rem, 2vw, 1.2rem);
+  bottom: clamp(0.6rem, 2vh, 1.2rem);
+  width: clamp(42px, 6.5vh, 62px);
+  height: clamp(42px, 6.5vh, 62px);
+  border: 3px solid rgba(63, 50, 37, 0.85);
+  border-radius: 50%;
+  background: rgba(255, 245, 220, 0.92);
+  color: var(--ink);
+  font-family: "ScoreboardOTF", "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+  font-size: clamp(1.4rem, 3.5vh, 2.2rem);
+  line-height: 1;
+  cursor: pointer;
+  z-index: 40;
+}
+
+.help-modal[hidden] {
+  display: none;
+}
+
+.help-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 16, 10, 0.46);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.help-modal-card {
+  position: relative;
+  width: min(92vw, 720px);
+  border: 3px solid rgba(63, 50, 37, 0.8);
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--paper-highlight), var(--paper-base));
+  padding: 1rem 1rem 0.9rem;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.28);
+}
+
+.help-modal-card h2 {
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.3rem, 3.8vh, 2.4rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.help-modal-card ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: clamp(1rem, 2.6vh, 1.7rem);
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.help-modal-card li + li {
+  margin-top: 0.35em;
+}
+
+.help-close {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.55rem;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 2px solid rgba(63, 50, 37, 0.75);
+  border-radius: 50%;
+  background: rgba(255, 245, 220, 0.9);
+  color: var(--ink);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    justify-content: center;
+  }
+}
