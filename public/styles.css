@@ -158,7 +158,6 @@ main {
   right: 0;
   bottom: 0;
   height: 0%;
-  transition: height 600ms ease;
   background: var(--team-color, #999);
 }
 

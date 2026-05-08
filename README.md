@@ -16,6 +16,7 @@ Browser-based Survivor watch-party scoreboard that reads from Google Sheets and 
 - `A2:A5`: active team names in display order
 - `B1:Z1`: team headers (must match active names)
 - `B2:Z`: numeric score values
+- **`F` column:** put a **0–100** value (e.g. in `F2`) for “evening progress.” The board scales thermometer fill by this percentage so meters look fuller as the night goes on (same scores appear lower early, higher later). If missing, it defaults to `100`.
 
 The server sums all numeric values in each matched team column.
 

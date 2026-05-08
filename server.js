@@ -94,12 +94,14 @@ async function fetchScoresFromSheet() {
   if (activeTeams.length === 0) {
     return {
       teams: [],
-      floor: FLOOR
+      floor: FLOOR,
+      eveningPercent: extractEveningPercent(matrix)
     };
   }
 
   const headers = matrix[0] || [];
   const dataRows = matrix.slice(1);
+  const eveningPercent = extractEveningPercent(matrix);
   const teams = activeTeams.map((teamName) => {
     const headerIndex = headers.findIndex((cell) => normalize(cell) === normalize(teamName));
     const score = headerIndex >= 0 ? sumColumn(dataRows, headerIndex) : 0;
@@ -112,8 +114,30 @@ async function fetchScoresFromSheet() {
 
   return {
     teams,
-    floor: FLOOR
+    floor: FLOOR,
+    eveningPercent
   };
+}
+
+/** Column F in the sheet (index 4 within range B1:Z). First numeric cell from row 2 down, else F1; default 100. */
+const COL_F_INDEX = 4;
+
+function extractEveningPercent(matrix) {
+  for (let r = 1; r < matrix.length; r++) {
+    const row = matrix[r];
+    if (!row) continue;
+    const v = row[COL_F_INDEX];
+    const n = Number(v);
+    if (Number.isFinite(n)) {
+      return Math.max(0, Math.min(100, n));
+    }
+  }
+  const top = matrix[0]?.[COL_F_INDEX];
+  const n = Number(top);
+  if (Number.isFinite(n)) {
+    return Math.max(0, Math.min(100, n));
+  }
+  return 100;
 }
 
 function extractActiveTeams(values) {
