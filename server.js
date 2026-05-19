@@ -12,12 +12,8 @@ const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY || "";
 const POLL_CACHE_MS = Number(process.env.POLL_CACHE_MS || 2000);
 const FLOOR = Number(process.env.FLOOR || 10);
 
-const TEAM_COLORS = {
-  cila: "#E67E22",
-  vatu: "#C2185B",
-  kalo: "#0E8A8A",
-  villains: "#6A1B9A"
-};
+/** Thermometer colors by team order (A2 = first, A3 = second, …). */
+const TEAM_COLORS_BY_ORDER = ["#E67E22", "#C2185B", "#14B8A6", "#6A1B9A"];
 const DEFAULT_COLOR = "#4F463A";
 
 let cachedPayload = null;
@@ -102,13 +98,13 @@ async function fetchScoresFromSheet() {
   const headers = matrix[0] || [];
   const dataRows = matrix.slice(1);
   const eveningPercent = extractEveningPercent(matrix);
-  const teams = activeTeams.map((teamName) => {
+  const teams = activeTeams.map((teamName, index) => {
     const headerIndex = headers.findIndex((cell) => normalize(cell) === normalize(teamName));
     const score = headerIndex >= 0 ? sumColumn(dataRows, headerIndex) : 0;
     return {
       name: teamName,
       score,
-      color: colorForTeam(teamName)
+      color: TEAM_COLORS_BY_ORDER[index] || DEFAULT_COLOR
     };
   });
 
@@ -157,10 +153,6 @@ function sumColumn(rows, index) {
     }
   }
   return total;
-}
-
-function colorForTeam(name) {
-  return TEAM_COLORS[normalize(name)] || DEFAULT_COLOR;
 }
 
 function normalize(value) {
